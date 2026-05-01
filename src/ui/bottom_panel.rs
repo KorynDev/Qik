@@ -1,5 +1,4 @@
 use gpui::*;
-use gpui::prelude::*;
 use crate::theme::Theme;
 use crate::ui::icons;
 
@@ -77,7 +76,7 @@ impl Render for BottomPanel {
                     .text_size(px(13.0))
                     .font_family("JetBrains Mono")
                     .text_color(theme.text)
-                    .overflow_y(Overflow::Scroll)
+                    .overflow_scroll()
                     .child(
                         div()
                             .flex()
