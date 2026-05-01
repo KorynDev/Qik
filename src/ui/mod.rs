@@ -1,3 +1,4 @@
+pub mod icons;
 pub mod workspace;
 pub mod sidebar;
 pub mod editor;
