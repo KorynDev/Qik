@@ -19,7 +19,7 @@ pub struct Workspace {
 impl Workspace {
     pub fn new(_window: &mut Window, cx: &mut Context<Self>) -> Self {
         let editor = cx.new(|cx| Editor::new(include_str!("../main.rs"), cx));
-        cx.focus_view(&editor);
+        cx.focus_view(&editor, _window);
         
         Self {
             sidebar_visible: true,
@@ -52,18 +52,22 @@ impl Workspace {
         cx.notify();
     }
 
-    pub fn toggle_command_palette(&mut self, _: &ToggleCommandPalette, _window: &mut Window, cx: &mut Context<Self>) {
+    pub fn toggle_command_palette(&mut self, _: &ToggleCommandPalette, window: &mut Window, cx: &mut Context<Self>) {
         if self.command_palette.is_some() {
             self.command_palette = None;
-            cx.focus_view(&self.editor);
+            cx.focus_view(&self.editor, window);
         } else {
             let palette = cx.new(|cx| CommandPalette::new(cx));
-            cx.focus_view(&palette);
-            cx.subscribe(&palette, |this, _palette, event, _window, cx| {
+            cx.focus_view(&palette, window);
+            cx.subscribe(&palette, |this, _palette, event, cx| {
                 match event {
                     CommandPaletteEvent::Executed | CommandPaletteEvent::Dismissed => {
                         this.command_palette = None;
-                        cx.focus_view(&this.editor);
+                        this.with_window(cx.entity_id(), |window, cx| {
+                            cx.update_entity(&this.editor, |_, cx| {
+                                cx.focus_self(window);
+                            });
+                        });
                     }
                 }
                 cx.notify();

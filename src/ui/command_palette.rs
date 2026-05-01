@@ -1,5 +1,6 @@
 use gpui::*;
 use gpui::prelude::*;
+use gpui::Focusable;
 use crate::theme::Theme;
 
 pub struct CommandPalette {

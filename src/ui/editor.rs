@@ -1,5 +1,6 @@
 use gpui::*;
 use gpui::prelude::*;
+use gpui::Focusable;
 use ropey::Rope;
 use crate::theme::Theme;
 
