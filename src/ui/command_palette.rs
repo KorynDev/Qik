@@ -13,13 +13,13 @@ impl CommandPalette {
         Self {
             query: String::new(),
             results: vec![
-                "File: New".to_string(),
-                "File: Open".to_string(),
+                "File: New File".to_string(),
+                "File: Open File...".to_string(),
                 "File: Save".to_string(),
                 "View: Toggle Sidebar".to_string(),
                 "View: Toggle Bottom Panel".to_string(),
                 "Editor: Format Document".to_string(),
-                "Help: Documentation".to_string(),
+                "Project: New Window".to_string(),
                 "Settings: Open Settings".to_string(),
                 "Project: Run Tests".to_string(),
             ],
@@ -37,47 +37,72 @@ pub enum CommandPaletteEvent {
 impl Render for CommandPalette {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = cx.global::<Theme>();
+        
+        // Modal Container (Floating)
         div()
             .absolute()
-            .top(px(48.0))
+            .top(px(64.0))
             .left_1_2()
-            .ml(px(-320.0))
-            .w(px(640.0))
+            .ml(px(-340.0))
+            .w(px(680.0))
             .bg(theme.panel_bg)
             .rounded_xl()
             .border_1()
             .border_color(theme.border)
             .shadow_xl()
-            .p_2()
+            .flex()
+            .flex_col()
+            .overflow_hidden()
             .child(
+                // Search Input Area
                 div()
                     .px_4()
                     .py_3()
+                    .bg(theme.toolbar_bg)
                     .border_b_1()
                     .border_color(theme.border)
+                    .flex()
+                    .items_center()
+                    .gap(px(12.0))
+                    .child(div().text_xl().text_color(theme.accent).child("󰭎"))
                     .child(
                         div()
-                            .flex()
-                            .gap(px(8.0))
-                            .child(div().text_color(theme.accent).child(">"))
-                            .child(div().child("Search commands..."))
+                            .text_lg()
+                            .text_color(theme.text)
+                            .child("Search commands...")
                     )
             )
             .child(
+                // Results List
                 div()
                     .flex()
                     .flex_col()
-                    .mt_1()
+                    .p_2()
                     .children(self.results.iter().enumerate().map(|(i, res)| {
                         let is_selected = i == self.selected_index;
                         div()
+                            .flex()
+                            .justify_between()
+                            .items_center()
                             .px_4()
                             .py_2()
-                            .rounded_md()
+                            .rounded_lg()
                             .when(is_selected, |s| {
-                                s.bg(theme.accent).text_color(theme.background)
+                                s.bg(theme.accent).text_color(hsla(0.0, 0.0, 1.0, 1.0))
                             })
-                            .child(res.clone())
+                            .child(div().child(res.clone()))
+                            .child(
+                                div()
+                                    .flex()
+                                    .gap(px(4.0))
+                                    .children(if is_selected {
+                                        vec![div().child("ENTER")]
+                                    } else {
+                                        vec![]
+                                    })
+                                    .text_xs()
+                                    .text_color(if is_selected { hsla(0.0, 0.0, 1.0, 0.8) } else { theme.text_muted })
+                            )
                     }))
             )
     }

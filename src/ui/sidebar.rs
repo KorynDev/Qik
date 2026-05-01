@@ -10,39 +10,58 @@ pub struct Sidebar {
 impl Render for Sidebar {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = cx.global::<Theme>();
+        
         div()
             .flex()
             .flex_col()
-            .w(px(256.0))
+            .w(px(260.0))
             .bg(theme.sidebar_bg)
             .border_r_1()
             .border_color(theme.border)
             .child(
                 div()
                     .flex()
-                    .h(px(40.0))
+                    .h(px(36.0))
                     .px_4()
                     .items_center()
+                    .justify_between()
                     .child(
                         div()
                             .text_xs()
                             .font_weight(FontWeight::BOLD)
                             .text_color(theme.text_muted)
-                            .child("EXPLORER")
+                            .child("PROJECT")
+                    )
+                    .child(
+                        div()
+                            .text_color(theme.text_muted)
+                            .child("...")
                     )
             )
             .child(
                 div()
                     .flex()
                     .flex_col()
-                    .px_2()
+                    .py_2()
                     .children(self.entries.iter().map(|p| {
                         let name = p.file_name().unwrap_or_default().to_string_lossy().to_string();
+                        let is_dir = p.is_dir();
+                        
                         div()
-                            .px_2()
+                            .flex()
+                            .items_center()
+                            .px_4()
                             .py_1()
-                            .rounded_sm()
-                            .hover(|s| s.bg(theme.background))
+                            .text_sm()
+                            .text_color(theme.text)
+                            .hover(|s| s.bg(theme.border_variant))
+                            .child(
+                                div()
+                                    .w(px(16.0))
+                                    .text_color(if is_dir { theme.accent } else { theme.text_muted })
+                                    .mr_2()
+                                    .child(if is_dir { "󰉋" } else { "󰈚" }) // Nerd Font symbols if supported, or generic
+                            )
                             .child(name)
                     }))
             )
