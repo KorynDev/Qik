@@ -63,7 +63,7 @@ impl Workspace {
                 match event {
                     CommandPaletteEvent::Executed | CommandPaletteEvent::Dismissed => {
                         this.command_palette = None;
-                        this.with_window(cx.entity_id(), |window, cx| {
+                        cx.with_window(this.entity_id(), |window, cx| {
                             cx.update_entity(&this.editor, |_, cx| {
                                 cx.focus_self(window);
                             });

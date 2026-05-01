@@ -132,7 +132,7 @@ impl Render for CommandPalette {
                     .flex_col()
                     .p_2()
                     .max_h(px(400.0))
-                    .overflow_y_scroll()
+                    .overflow_y(Overflow::Scroll)
                     .children(self.results.iter().enumerate().map(|(i, res)| {
                         let is_selected = i == self.selected_index;
                         div()
