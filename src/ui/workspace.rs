@@ -1,4 +1,5 @@
 use gpui::*;
+use gpui::prelude::*;
 use walkdir::WalkDir;
 use crate::theme::Theme;
 use crate::actions::{ToggleSidebar, ToggleBottomPanel};
