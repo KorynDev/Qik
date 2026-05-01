@@ -76,6 +76,7 @@ impl Render for BottomPanel {
                     .text_size(px(13.0))
                     .font_family("JetBrains Mono")
                     .text_color(theme.text)
+                    .id("terminal-content")
                     .overflow_scroll()
                     .child(
                         div()

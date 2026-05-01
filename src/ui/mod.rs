@@ -1,14 +1,13 @@
-pub mod icons;
-pub mod workspace;
-pub mod sidebar;
-pub mod editor;
-pub mod bottom_panel;
-pub mod search_view;
-pub mod command_palette;
+mod sidebar;
+mod editor;
+mod bottom_panel;
+mod search_view;
+mod command_palette;
+mod icons;
 
-pub use workspace::Workspace;
-pub use sidebar::Sidebar;
-pub use editor::Editor;
-pub use bottom_panel::BottomPanel;
-pub use search_view::SearchView;
-pub use command_palette::CommandPalette;
+pub use sidebar::*;
+pub use editor::*;
+pub use bottom_panel::*;
+pub use search_view::*;
+pub use command_palette::*;
+pub use icons::*;
