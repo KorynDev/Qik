@@ -1,7 +1,7 @@
 use gpui::*;
 use gpui::prelude::*;
 
-pub fn file_icon(color: Hsla) -> impl IntoElement {
+pub fn file_icon(color: Hsla) -> AnyElement {
     div()
         .size(px(14.0))
         .relative()
@@ -21,9 +21,10 @@ pub fn file_icon(color: Hsla) -> impl IntoElement {
                 .bg(color)
                 .rounded_bl_sm()
         )
+        .into_any_element()
 }
 
-pub fn folder_icon(color: Hsla) -> impl IntoElement {
+pub fn folder_icon(color: Hsla) -> AnyElement {
     div()
         .w(px(16.0))
         .h(px(12.0))
@@ -46,9 +47,10 @@ pub fn folder_icon(color: Hsla) -> impl IntoElement {
                 .bg(color)
                 .rounded_t_sm()
         )
+        .into_any_element()
 }
 
-pub fn search_icon(color: Hsla) -> impl IntoElement {
+pub fn search_icon(color: Hsla) -> AnyElement {
     div()
         .size(px(16.0))
         .relative()
@@ -69,9 +71,10 @@ pub fn search_icon(color: Hsla) -> impl IntoElement {
                 .bg(color)
                 .rotate(Degrees(45.0))
         )
+        .into_any_element()
 }
 
-pub fn settings_icon(color: Hsla) -> impl IntoElement {
+pub fn settings_icon(color: Hsla) -> AnyElement {
     div()
         .size(px(16.0))
         .border_2()
@@ -86,9 +89,10 @@ pub fn settings_icon(color: Hsla) -> impl IntoElement {
                 .bg(color)
                 .rounded_full()
         )
+        .into_any_element()
 }
 
-pub fn project_icon(color: Hsla) -> impl IntoElement {
+pub fn project_icon(color: Hsla) -> AnyElement {
     div()
         .size(px(16.0))
         .border_2()
@@ -100,9 +104,10 @@ pub fn project_icon(color: Hsla) -> impl IntoElement {
         .gap_px()
         .child(div().h_px().w_full().bg(color))
         .child(div().h_px().w_full().bg(color))
+        .into_any_element()
 }
 
-pub fn close_icon(color: Hsla) -> impl IntoElement {
+pub fn close_icon(color: Hsla) -> AnyElement {
     div()
         .size(px(10.0))
         .relative()
@@ -126,4 +131,5 @@ pub fn close_icon(color: Hsla) -> impl IntoElement {
                 .bg(color)
                 .rotate(Degrees(-45.0))
         )
+        .into_any_element()
 }

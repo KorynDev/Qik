@@ -1,5 +1,4 @@
 use gpui::*;
-use gpui::prelude::*;
 use std::path::PathBuf;
 use crate::theme::Theme;
 use crate::ui::icons;
