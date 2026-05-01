@@ -234,7 +234,7 @@ impl Render for Workspace {
 }
 
 fn main() {
-    Application::production().run(|cx: &mut App| {
+    gpui::App::new().run(|cx: &mut App| {
         cx.set_global(Theme::qik_dark());
         
         cx.open_window(WindowOptions::default(), |window, cx| {
