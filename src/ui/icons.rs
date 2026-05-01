@@ -12,15 +12,6 @@ pub fn file_icon(color: Hsla) -> AnyElement {
                 .border_color(color)
                 .rounded_sm()
         )
-        .child(
-            div()
-                .absolute()
-                .top_0()
-                .right_0()
-                .size(px(4.0))
-                .bg(color)
-                .rounded_bl_sm()
-        )
         .into_any_element()
 }
 
@@ -56,7 +47,7 @@ pub fn search_icon(color: Hsla) -> AnyElement {
         .relative()
         .child(
             div()
-                .size(px(12.0))
+                .size(px(11.0))
                 .border_2()
                 .border_color(color)
                 .rounded_full()
@@ -64,12 +55,10 @@ pub fn search_icon(color: Hsla) -> AnyElement {
         .child(
             div()
                 .absolute()
-                .bottom_0()
-                .right_0()
-                .w(px(6.0))
-                .h(px(2.0))
+                .bottom(px(1.0))
+                .right(px(1.0))
+                .size(px(5.0))
                 .bg(color)
-                .rotate(Degrees(45.0))
         )
         .into_any_element()
 }
@@ -110,26 +99,11 @@ pub fn project_icon(color: Hsla) -> AnyElement {
 pub fn close_icon(color: Hsla) -> AnyElement {
     div()
         .size(px(10.0))
-        .relative()
-        .child(
-            div()
-                .absolute()
-                .top_1_2()
-                .left_0()
-                .w_full()
-                .h_px()
-                .bg(color)
-                .rotate(Degrees(45.0))
-        )
-        .child(
-            div()
-                .absolute()
-                .top_1_2()
-                .left_0()
-                .w_full()
-                .h_px()
-                .bg(color)
-                .rotate(Degrees(-45.0))
-        )
+        .flex()
+        .items_center()
+        .justify_center()
+        .text_color(color)
+        .text_size(px(10.0))
+        .child("×")
         .into_any_element()
 }
