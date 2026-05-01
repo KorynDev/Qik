@@ -2,8 +2,8 @@ use gpui::*;
 use gpui::prelude::*;
 use walkdir::WalkDir;
 use crate::theme::Theme;
-use crate::actions::{ToggleSidebar, ToggleBottomPanel};
-use crate::ui::{Sidebar, Editor, BottomPanel, SearchView, CommandPalette};
+use crate::actions::{ToggleSidebar, ToggleBottomPanel, ToggleCommandPalette};
+use crate::ui::{Sidebar, Editor, BottomPanel, SearchView, CommandPalette, CommandPaletteEvent};
 use crate::ui::icons;
 
 pub struct Workspace {
@@ -18,9 +18,12 @@ pub struct Workspace {
 
 impl Workspace {
     pub fn new(_window: &mut Window, cx: &mut Context<Self>) -> Self {
+        let editor = cx.new(|cx| Editor::new(include_str!("../main.rs"), cx));
+        cx.focus_view(&editor);
+        
         Self {
             sidebar_visible: true,
-            bottom_panel_visible: false,
+            bottom_panel_visible: true,
             sidebar: cx.new(|_| Sidebar {
                 entries: WalkDir::new(".")
                     .max_depth(1)
@@ -29,10 +32,8 @@ impl Workspace {
                     .map(|e| e.path().to_path_buf())
                     .collect(),
             }),
-            editor: cx.new(|_| Editor::new(include_str!("../main.rs"))),
-            bottom_panel: cx.new(|_| BottomPanel {
-                active_tab: "TERMINAL".to_string(),
-            }),
+            editor,
+            bottom_panel: cx.new(|_| BottomPanel::new()),
             search_view: cx.new(|_| SearchView {
                 search_query: "".into(),
                 replace_query: "".into(),
@@ -50,6 +51,27 @@ impl Workspace {
         self.bottom_panel_visible = !self.bottom_panel_visible;
         cx.notify();
     }
+
+    pub fn toggle_command_palette(&mut self, _: &ToggleCommandPalette, _window: &mut Window, cx: &mut Context<Self>) {
+        if self.command_palette.is_some() {
+            self.command_palette = None;
+            cx.focus_view(&self.editor);
+        } else {
+            let palette = cx.new(|cx| CommandPalette::new(cx));
+            cx.focus_view(&palette);
+            cx.subscribe(&palette, |this, _palette, event, _window, cx| {
+                match event {
+                    CommandPaletteEvent::Executed | CommandPaletteEvent::Dismissed => {
+                        this.command_palette = None;
+                        cx.focus_view(&this.editor);
+                    }
+                }
+                cx.notify();
+            }).detach();
+            self.command_palette = Some(palette);
+        }
+        cx.notify();
+    }
 }
 
 impl Render for Workspace {
@@ -61,6 +83,7 @@ impl Render for Workspace {
             .bg(theme.background)
             .on_action(cx.listener(Self::toggle_sidebar))
             .on_action(cx.listener(Self::toggle_bottom_panel))
+            .on_action(cx.listener(Self::toggle_command_palette))
             .flex()
             .child(
                 // Activity Bar (Leftmost)

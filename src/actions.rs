@@ -1,6 +1,8 @@
 use gpui::*;
 
 actions!(qik, [
-    Quit, ToggleSidebar, OpenCommandPalette, SearchFiles, SaveFile,
-    ToggleBottomPanel, NextTab, PrevTab, CloseTab, FocusEditor
+    ToggleSidebar,
+    ToggleBottomPanel,
+    ToggleCommandPalette,
+    Quit
 ]);
