@@ -1,5 +1,4 @@
 use gpui::*;
-use gpui::prelude::*;
 use crate::theme::Theme;
 
 pub struct BottomPanel {

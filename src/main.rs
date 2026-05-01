@@ -9,7 +9,7 @@ use crate::ui::Workspace;
 
 fn main() {
     application().run(|cx: &mut App| {
-        cx.set_global(Theme::qik_dark());
+        cx.set_global(Theme::zed_dark());
         
         cx.open_window(WindowOptions::default(), |window, cx| {
             cx.new(|cx| Workspace::new(window, cx))
